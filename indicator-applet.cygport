@@ -1,0 +1,23 @@
+inherit gnome2
+
+NAME="indicator-applet"
+VERSION=12.10.1
+RELEASE=1
+CATEGORY="GNOME"
+SUMMARY="Indicator applet for GNOME Flashback panel"
+DESCRIPTION="A small applet to display information from various applications
+consistently in the GNOME Flashback panel."
+HOMEPAGE="https://launchpad.net/indicator-applet"
+SRC_URI="${HOMEPAGE}/${VERSION%.*}/${VERSION}/+download/${NAME}-${VERSION}.tar.gz"
+PATCH_URI="
+	12.10.1-cygwin-soname.patch
+	12.10.1-panel-flashback.patch
+"
+
+# the one indicator we actually benefit from outside of Unity
+REQUIRES="indicator-application"
+
+# this hasn't been updated in far too long
+CFLAGS+=" -Wno-error=deprecated-declarations"
+# libexecdir: avoid collision with mate-applets
+CYGCONF_ARGS="--libexecdir=/usr/libexec/gnome-panel"
