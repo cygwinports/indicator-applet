@@ -1,6 +1,61 @@
+--- origsrc/indicator-applet/data/org.ayatana.panel.FastUserSwitchApplet.panel-applet.in.in	2017-03-07 03:27:43.000000000 -0600
++++ src/indicator-applet/data/org.ayatana.panel.FastUserSwitchApplet.panel-applet.in.in	2017-03-07 04:05:19.982702100 -0600
+@@ -1,7 +1,7 @@
+ [Applet Factory]
+ Id=FastUserSwitchAppletFactory
+ InProcess=true
+-Location=@PKGLIBDIR@/libindicator-applet-session.so
++Location=@PKGLIBDIR@/cygindicator-applet-session.dll
+ Name=Indicator Applet Factory
+ Description=Indicator Applet Factory
+ 
+--- origsrc/indicator-applet/data/org.ayatana.panel.IndicatorApplet.panel-applet.in.in	2017-03-07 03:27:43.000000000 -0600
++++ src/indicator-applet/data/org.ayatana.panel.IndicatorApplet.panel-applet.in.in	2017-03-07 04:05:25.549894600 -0600
+@@ -1,7 +1,7 @@
+ [Applet Factory]
+ Id=IndicatorAppletFactory
+ InProcess=true
+-Location=@PKGLIBDIR@/libindicator-applet.so
++Location=@PKGLIBDIR@/cygindicator-applet.dll
+ Name=Indicator Applet Factory
+ Description=Indicator Applet Factory
+ 
+--- origsrc/indicator-applet/data/org.ayatana.panel.IndicatorAppletAppmenu.panel-applet.in.in	2017-03-07 03:27:43.000000000 -0600
++++ src/indicator-applet/data/org.ayatana.panel.IndicatorAppletAppmenu.panel-applet.in.in	2017-03-07 04:05:30.187226900 -0600
+@@ -1,7 +1,7 @@
+ [Applet Factory]
+ Id=IndicatorAppletAppmenuFactory
+ InProcess=true
+-Location=@PKGLIBDIR@/libindicator-applet-appmenu.so
++Location=@PKGLIBDIR@/cygindicator-applet-appmenu.dll
+ Name=Indicator Applet Appmenu Factory
+ Description=Indicator Applet Appmenu Factory
+ 
+--- origsrc/indicator-applet/data/org.ayatana.panel.IndicatorAppletComplete.panel-applet.in.in	2017-03-07 03:27:43.000000000 -0600
++++ src/indicator-applet/data/org.ayatana.panel.IndicatorAppletComplete.panel-applet.in.in	2017-03-07 04:05:35.270433500 -0600
+@@ -1,7 +1,7 @@
+ [Applet Factory]
+ Id=IndicatorAppletCompleteFactory
+ InProcess=true
+-Location=@PKGLIBDIR@/libindicator-applet-complete.so
++Location=@PKGLIBDIR@/cygindicator-applet-complete.dll
+ Name=Indicator Applet Complete Factory
+ Description=Indicator Applet Complete Factory
+ 
+--- origsrc/indicator-applet/src/Makefile.am	2017-03-07 03:27:43.000000000 -0600
++++ src/indicator-applet/src/Makefile.am	2017-03-07 04:05:02.747823500 -0600
+@@ -20,7 +20,7 @@ APPLET_CPPFLAGS = \
+ 	-I$(srcdir)/..
+ 
+ AM_CFLAGS = $(APPLET_CFLAGS)
+-AM_LDFLAGS = -module -avoid-version
++AM_LDFLAGS = -module -avoid-version -no-undefined
+ 
+ libindicator_applet_la_SOURCES = $(APPLET_SOURCES)
+ libindicator_applet_la_CPPFLAGS = $(APPLET_CPPFLAGS) \
 --- origsrc/indicator-applet-12.10.1/src/applet-main.c	2012-09-19 11:17:44.000000000 -0500
 +++ src/indicator-applet-12.10.1/src/applet-main.c	2016-12-02 11:04:38.758238500 -0600
-@@ -30,21 +30,27 @@ with this program.  If not, see <http://
+@@ -30,16 +30,22 @@ with this program.  If not, see <http://
  #include "libindicator/indicator-object.h"
  #include "tomboykeybinder.h"
  
@@ -14,31 +69,21 @@
 -  {"libappmenu.so", NULL},                    /* indicator-appmenu" */
 -  {"libapplication.so", NULL},                /* indicator-application" */
 -  {"libprintersmenu.so", NULL},               /* indicator-printers */
--  {"libsyncindicator.so", NULL},              /* indicator-sync */
 -  {"libapplication.so", "gsd-keyboard-xkb"},  /* keyboard layout selector */
 -  {"libmessaging.so", NULL},                  /* indicator-messages */
--  {"libpower.so", NULL},                      /* indicator-power */
--  {"libapplication.so", "bluetooth-manager"}, /* bluetooth manager */
+-  {"libbluetooth.so", NULL},                  /* indicator-bluetooth */
 -  {"libnetwork.so", NULL},                    /* indicator-network */
 -  {"libnetworkmenu.so", NULL},                /* indicator-network */
 -  {"libapplication.so", "nm-applet"},         /* network manager */
--  {"libsoundmenu.so", NULL},                  /* indicator-sound */
--  {"libdatetime.so", NULL},                   /* indicator-datetime */
--  {"libsession.so", NULL},                    /* indicator-session */
 +  {LIBSO("appmenu"), NULL},                    /* indicator-appmenu" */
 +  {LIBSO("application"), NULL},                /* indicator-application" */
 +  {LIBSO("printersmenu"), NULL},               /* indicator-printers */
-+  {LIBSO("syncindicator"), NULL},              /* indicator-sync */
 +  {LIBSO("application"), "gsd-keyboard-xkb"},  /* keyboard layout selector */
 +  {LIBSO("messaging"), NULL},                  /* indicator-messages */
-+  {LIBSO("power"), NULL},                      /* indicator-power */
-+  {LIBSO("application"), "bluetooth-manager"}, /* bluetooth manager */
++  {LIBSO("bluetooth"), NULL},                  /* indicator-bluetooth */
 +  {LIBSO("network"), NULL},                    /* indicator-network */
 +  {LIBSO("networkmenu"), NULL},                /* indicator-network */
 +  {LIBSO("application"), "nm-applet"},         /* network manager */
-+  {LIBSO("soundmenu"), NULL},                  /* indicator-sound */
-+  {LIBSO("datetime"), NULL},                   /* indicator-datetime */
-+  {LIBSO("session"), NULL},                    /* indicator-session */
    {NULL, NULL}
  };
  
